@@ -1,7 +1,8 @@
 const loadPageBtn = document.querySelector('#loadmore-btn')
 const cardPokemons = document.querySelector('.card-pokemons')
 
-const limit = 8
+const maxRecords = 151
+const limit = 10
 let offset = 0
 
 function loadPokemonPage(limit,offset) {
@@ -9,8 +10,6 @@ function loadPokemonPage(limit,offset) {
     getResUrl(url)
 }
 
-//Chamando essa função para aparecer os cincos primeiros pokemons
-loadPokemonPage(limit, offset)
 
 //Pegando a resposta da url
 async function getResUrl (url){
@@ -28,6 +27,9 @@ async function getResUrl (url){
     }
 }
 
+//Chamando essa função para aparecer os cincos primeiros pokemons
+loadPokemonPage(limit, offset)
+
 
 //Pegando a resposta de todas as url's de detalhe dos pokemons 
 async function getDetailsUrl(results) {
@@ -41,17 +43,28 @@ async function getDetailsUrl(results) {
     }))
     
     console.log(pokemonDetails)
+    //Função que armazena os detalhes do pokemon em um objeto
+    pokedexPokemonsDetails(pokemonDetails)
 
-    //Percorrendo o objeto pokemonDetails, e cada item do objeto é transformado em uma lista HTML pela função createListPokemon
-    //e sem nenhum separador pelo método 'join'
-    const newHTLM = pokemonDetails.map(createListPokemon).join('')
-
-    //E o pai do DOM recebe esse novo HTML
-    cardPokemons.innerHTML += newHTLM
 }
 
 
+//Eventos
 loadPageBtn.addEventListener('click', () => {
+    //Quando o botão receber um click o offset concatena com o limite, ou seja,
+    //Ele irá carregar 5 pokemons
     offset += limit
-    loadPokemonPage(limit, offset)
+   
+    const qtdNexPage = offset + limit;
+
+    if(qtdNexPage >= maxRecords) {
+        //Um novo limite é criado tendo o valor de quantidade máximo menos o de offse, ou seja,
+        const newLimit = maxRecords - offset
+        loadPokemonPage(newLimit, offset)
+        loadPageBtn.remove()
+    }else {
+        
+        loadPokemonPage(limit, offset)
+
+    }
 })
