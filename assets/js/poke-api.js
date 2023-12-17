@@ -1,9 +1,11 @@
 const loadPageBtn = document.querySelector('#loadmore-btn')
 const cardPokemons = document.querySelector('.card-pokemons')
 
+
 const maxRecords = 151
 const limit = 10
 let offset = 0
+
 
 function loadPokemonPage(limit,offset) {
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
@@ -27,7 +29,7 @@ async function getResUrl (url){
     }
 }
 
-//Chamando essa função para aparecer os cincos primeiros pokemons
+//Chamando essa função para aparecer primeiros pokemons
 loadPokemonPage(limit, offset)
 
 
@@ -45,25 +47,25 @@ async function getDetailsUrl(results) {
     console.log(pokemonDetails)
     //Função que armazena os detalhes do pokemon em um objeto
     pokedexPokemonsDetails(pokemonDetails)
-
+    detailsPokemonFunction(pokemonDetails)
+    
 }
+
 
 
 //Eventos
 loadPageBtn.addEventListener('click', () => {
     //Quando o botão receber um click o offset concatena com o limite, ou seja,
-    //Ele irá carregar 5 pokemons
+    //Ele irá carregar 10 pokemons
     offset += limit
    
     const qtdNexPage = offset + limit;
-
     if(qtdNexPage >= maxRecords) {
         //Um novo limite é criado tendo o valor de quantidade máximo menos o de offse, ou seja,
         const newLimit = maxRecords - offset
         loadPokemonPage(newLimit, offset)
         loadPageBtn.remove()
     }else {
-        
         loadPokemonPage(limit, offset)
 
     }
