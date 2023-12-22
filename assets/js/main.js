@@ -13,6 +13,7 @@ function pokedexPokemonsDetails(pokemonDetails) {
             photo: pokemon.sprites.other.dream_world.front_default,
         }
 
+
         //Toda vez que os detalhes de um pokemon são armazenados no objeto, ele retorna a função que faz o DOM 
         //com o objeto como parâmetro
         return createListPokemon(newPokemon)
@@ -45,34 +46,47 @@ function createListPokemon(pokemon) {
 
 }
 
-
+//Função que retorna os detalhes do pokemon que recebeu o click no botão
 function detailsPokemonFunction(pokemonsDetails) {
     document.addEventListener('click', (e) => {
-       if(e.target.classList.contains('btn-details')) {
+        if(e.target.classList.contains('btn-details')) {
             modalPokemon.classList.add('modal-show')
+
+            //O botão de cada pokemon possui um atributo com o seu valor de id, se o usuário clicar no primeiro pokemon
+            //seu atributo id será 1. E essa variável 'idPokemon' armazena esse Id
             const idPokemon = e.target.dataset.id
             console.log(idPokemon)
+
+            //Armazenando na variável pokemonIndex, o index do pokemon que tem o id igual
+            //ao o id do pokemon que recebeu o clique
             const pokemonIndex = pokemonsDetails.findIndex((pokemon) =>  {
                 return pokemon.id == idPokemon
             })
 
-          const pokemonClicked = pokemonsDetails[pokemonIndex]
-          console.log(pokemonClicked)
+            //A variável pokemonClicked armazena o objeto do array pokemonDetails 
+            //que está no index que foi encontrado anteriormente
+            const pokemonClicked = pokemonsDetails[pokemonIndex]
+            console.log(pokemonClicked)
 
-          const newPokemonDetails = {
-            height: pokemonClicked.height,
-            weight: pokemonClicked.weight,
-            abilities: pokemonClicked.abilities.map((index) => index.ability.name),
-            photo: pokemonClicked.sprites.other.dream_world.front_default,
-            type: pokemonClicked.types[0].type.name,
-            number: pokemonClicked.id
-          }
+            //Um novo objeto é criado para poder armazenar as propriedades desse objeto que foi encontrado
+            const newPokemonDetails = {
+                height: pokemonClicked.height,
+                weight: pokemonClicked.weight,
+                abilities: pokemonClicked.abilities.map((index) => index.ability.name),
+                photo: pokemonClicked.sprites.other.dream_world.front_default,
+                type: pokemonClicked.types[0].type.name,
+                number: pokemonClicked.id
+                
+            }
+            
+            console.log(newPokemonDetails.height)
 
-          console.log(newPokemonDetails)
+            //Essa variável armazena a função openModalPokemon que retorna um html com as informações que estão
+            // no objeto newPokemonDetails
+            const newHTLM = openModalPokemon(newPokemonDetails)
 
-          const newHTLM = openModalPokemon(newPokemonDetails)
-
-          modalPokemon.innerHTML = newHTLM
+            //O elemento pai do Modal recebe em seu html esse novo html
+            modalPokemon.innerHTML = newHTLM
         
        }
    })
