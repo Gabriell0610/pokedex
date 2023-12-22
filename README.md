@@ -1,5 +1,11 @@
 # Trilha JS Developer - Pokedex
 
-Desafio: Adicionar os detalhes do pokemon ✅
+Projeto feito para estudo junto com a DIO pela trilha Desenvolvimento Frontend com Angular
+
+## Tecnologias 🚀
+- HTML
+- CSS
+- JAVASCRIPT
+- API DO POKEAPI
 
 
